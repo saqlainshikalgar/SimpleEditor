@@ -186,3 +186,42 @@ public class SimpleEditor extends JFrame {
     }
   }
 }
+ // An action that saves the document to a file
+  class SaveasAction extends AbstractAction {
+    public SaveAction() {
+      super("Saveas", new ImageIcon("icons/save.gif"));
+    }
+
+    // Query user for a filename and attempt to open and write the text
+    // component’s content to the file.
+    public void actionPerformed(ActionEvent ev) {
+      JFileChooser chooser = new JFileChooser();
+      if (chooser.showSaveDialog(SimpleEditor.this) !=
+          JFileChooser.APPROVE_OPTION)
+        return;
+      File file = chooser.getSelectedFile();
+      if (file == null)
+        return;
+
+      FileWriter writer = null;
+      try {
+        writer = new FileWriter(file);
+        textComp.write(writer);
+      }
+      catch (IOException ex) {
+        JOptionPane.showMessageDialog(SimpleEditor.this,
+        "File Not Saved", "ERROR", JOptionPane.ERROR_MESSAGE);
+      }
+      finally {
+        if (writer != null) {
+          try {
+            writer.close();
+          } catch (IOException x) {}
+        }
+      }
+    }
+  }
+}
+ 
+
+
